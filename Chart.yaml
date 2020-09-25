@@ -2,7 +2,7 @@ apiVersion: v1
 name: Lintol CKAN
 description: A Helm chart for CKAN
 name: ckan
-version: 0.0.2
+version: 0.1.0
 keywords:
   - ckan
 home: http://lintol.io

@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ template "fullname" . }}
@@ -11,7 +11,10 @@ metadata:
     checksum/configmap: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
     checksum/configmap-env: {{ include (print $.Template.BasePath "/configmap-env.yaml") . | sha256sum }}
 spec:
-  serviceName: {{ template "fullname" . }}
+  # serviceName: {{ template "fullname" . }}
+  selector:
+    matchLabels:
+      app: {{ template "fullname" . }}
   replicas: 1
   template:
     metadata:
@@ -57,6 +60,7 @@ spec:
         - name: ckan-core
           containerPort: 5000
         resources:
+{{ toYaml .Values.resources | indent 10 }}
       volumes:
       - name: ckan-production-ini
         configMap:
@@ -70,4 +74,4 @@ spec:
           items:
           - key: initializeSh
             path: initialize.sh
-{{ toYaml .Values.resources | indent 10 }}
+          
